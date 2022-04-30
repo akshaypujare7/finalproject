@@ -31,7 +31,9 @@ def songs_browse(page):
 def songs_upload():
     form = csv_upload()
     if form.validate_on_submit():
-        log = logging.getLogger("myApp")
+        #Log file for entry each time a user uploads a csv file
+        log = logging.getLogger("CSV_upload")
+        log.info('csv file uploaded successfully!')
 
         filename = secure_filename(form.file.data.filename)
         filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
@@ -52,3 +54,5 @@ def songs_upload():
         return render_template('upload.html', form=form)
     except TemplateNotFound:
         abort(404)
+        log = logging.getLogger("errors")
+        log.info('Error Occurred')
